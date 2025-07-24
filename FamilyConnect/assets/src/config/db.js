@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/Nombre de la DB', { // cambia el nombre de la base de datos y/o puertos si estan usando otro
+    await mongoose.connect('mongodb://localhost:27017/', { // agregar el nombre de la base de datos
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
