@@ -1,0 +1,9 @@
+{
+    "name": "proyecto/family-connect",
+    "description": "Sistema de gestión para hogar de retiro",
+    "type": "project",
+    "require": {
+        "mongodb/mongodb": "^1.16"
+    },
+    "minimum-stability": "stable"
+}
