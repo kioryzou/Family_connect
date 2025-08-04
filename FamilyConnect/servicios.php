@@ -30,7 +30,7 @@
   <div class="container">
 
     <div class="row gy-4">
-
+   <a href="visitas.php" style="text-decoration: none; color: inherit;">
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
         <div class="service-item position-relative">
           <div class="icon">
@@ -40,6 +40,7 @@
           <p>Permite a los familiares agendar, modificar o cancelar visitas fácilmente. El personal puede aceptar o reorganizar los horarios para evitar conflictos y garantizar orden.</p>
           
         </div>
+        </a>
       </div><!-- End Service Item -->
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
