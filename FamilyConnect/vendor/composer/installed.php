@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'proyecto/family-connect',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'fa304c7585a9c94f1e4d3ee6e6346ef6245d2a23',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'proyecto/family-connect' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'fa304c7585a9c94f1e4d3ee6e6346ef6245d2a23',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
