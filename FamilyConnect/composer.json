@@ -3,7 +3,8 @@
     "description": "Sistema de gestión para hogar de retiro",
     "type": "project",
     "require": {
-        "mongodb/mongodb": "^1.16"
+        "mongodb/mongodb": "^1.16",
+        "phpmailer/phpmailer": "^6.10"
     },
     "minimum-stability": "stable"
 }

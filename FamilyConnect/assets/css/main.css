@@ -1732,3 +1732,56 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+
+.tabla-visitas {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tabla-visitas th,
+.tabla-visitas td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-visitas thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.tabla-visitas tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-visitas tbody tr:hover {
+  background-color: #eef6ff;
+  cursor: default;
+}
+
+.tabla-visitas td:last-child {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.container-visitas {
+  max-width: 900px; 
+  margin: 0 auto;  
+  padding: 20px;
+}
+
+ .reservar-general{
+background: var(--accent-color);
+  border: 0;
+  padding: 10px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+
+
+
+}
