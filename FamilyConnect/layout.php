@@ -33,6 +33,8 @@ function MostrarMenu(){
             <li><a href="sobreNosotros.php">Sobre Nosotros</a></li>
             <li><a href="servicios.php">Servicios</a></li>
             <li><a href="contacto.php">Contacto</a></li>
+             <li><a href="login.php">Iniciar Sesión</a></li>
+              <li><a href="logout.php">Cerrar Sesión</a></li>
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="retroalimentacion.php">Retroalimentacion</a></li>
@@ -42,7 +44,7 @@ function MostrarMenu(){
             </li>
                 <li class="dropdown"><a href="#"><span>Residente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                   <ul>
-                    <li><a href="#">Perfil de Residente</a></li>
+                    <li><a href="perfilResidente.php">Perfil de Residente</a></li>
                     <li><a href="appointmentForm.php">Reservar Visita</a></li>
                     <li><a href="#">Deep Dropdown 3</a></li>
                     <li><a href="#">Deep Dropdown 4</a></li>

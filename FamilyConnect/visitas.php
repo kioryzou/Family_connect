@@ -44,10 +44,6 @@ include('layout.php');
     <div class="container-visitas">
 
 
-
-
-
-
   <a href="appointmentForm.php" class="reservar-general">Reservar Visita</a>
 
   <table class="tabla-visitas">
