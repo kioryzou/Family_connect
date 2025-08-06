@@ -51,7 +51,7 @@ function MostrarMenu(){
                     <li><a href="#">Deep Dropdown 5</a></li>
                   </ul>
                 </li>
-            
+            <li><a href="auth.php">Acceder</a></li>
           
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
