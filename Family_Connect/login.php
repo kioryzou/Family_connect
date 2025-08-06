@@ -1,7 +1,7 @@
 <?php
 session_start();
  include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/FamilyConnect/controller/loginController.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/loginController.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
    if (loginController::procesarLogin()) {

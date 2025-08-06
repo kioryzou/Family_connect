@@ -1,7 +1,7 @@
 
 <?php
  include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/FamilyConnect/controller/retroalimentacionController.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/retroalimentacionController.php';
  
 $datos = obtenerRetroalimencacionController::manejarFormulacio();
 if(!$datos){

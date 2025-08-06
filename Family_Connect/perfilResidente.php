@@ -2,7 +2,7 @@
 <?php
 session_start();
  include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/FamilyConnect/controller/residenteController.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/residenteController.php';
  
 $residente = null;
 

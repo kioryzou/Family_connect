@@ -33,7 +33,7 @@ function MostrarMenu(){
             <li><a href="sobreNosotros.php">Sobre Nosotros</a></li>
             <li><a href="servicios.php">Servicios</a></li>
             <li><a href="contacto.php">Contacto</a></li>
-      
+         
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="retroalimentacion.php">Retroalimentacion</a></li>
