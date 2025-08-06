@@ -1,8 +1,10 @@
 
 <?php
-session_start();
- include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/residenteController.php';
+require_once __DIR__ . '/auth_helper.php';
+protect_page(['familiar']); // Solo los familiares pueden ver esta página
+
+include('layout.php');
+require_once __DIR__ . '/controller/residenteController.php';
  
 $residente = null;
 

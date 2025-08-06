@@ -1,5 +1,8 @@
 <?php
- include('layout.php'); 
+require_once __DIR__ . '/auth_helper.php';
+protect_page(['familiar']); // Solo los familiares pueden ver esta página
+
+include('layout.php');
 ?>
 
 <!DOCTYPE html>

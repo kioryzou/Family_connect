@@ -1,6 +1,16 @@
 
 <?php
- include('layout.php'); 
+ include('layout.php');
+
+$visitas_link = "auth.php"; // Default para usuarios no logueados
+if (isset($_SESSION['user_id'])) {
+    if (user_has_role(['admin', 'doctor', 'enfermero', 'cuidador'])) {
+        $visitas_link = "visitas.php"; // El personal gestiona las visitas
+    } elseif (user_has_role('familiar')) {
+        $visitas_link = "appointmentForm.php"; // El familiar reserva una visita
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -30,17 +40,14 @@
   <div class="container">
 
     <div class="row gy-4">
-   <a href="visitas.php" style="text-decoration: none; color: inherit;">
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
         <div class="service-item position-relative">
           <div class="icon">
             <i class="fas fa-calendar-alt"></i>
           </div>
-          <h3>Gestión de Visitas</h3>
+          <a href="<?= $visitas_link ?>" class="stretched-link"><h3>Gestión de Visitas</h3></a>
           <p>Permite a los familiares agendar, modificar o cancelar visitas fácilmente. El personal puede aceptar o reorganizar los horarios para evitar conflictos y garantizar orden.</p>
-          
         </div>
-        </a>
       </div><!-- End Service Item -->
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">

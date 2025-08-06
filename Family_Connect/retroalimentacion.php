@@ -1,8 +1,12 @@
 
 <?php
- include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/retroalimentacionController.php';
+require_once __DIR__ . '/auth_helper.php';
+include('layout.php');
+require_once __DIR__ . '/controller/retroalimentacionController.php';
  
+// Protegemos la página usando nuestra nueva función de ayuda
+protect_page(['admin', 'doctor', 'enfermero', 'cuidador']);
+
 $datos = obtenerRetroalimencacionController::obtenerRetroalimencacion();
 if(!$datos){
   $datos = [];

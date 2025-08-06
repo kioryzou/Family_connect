@@ -23,7 +23,6 @@
 
         <div class="container section-title text-center mb-5">
           <h2>Acceso de Usuarios</h2>
-          <p>Elige una opción para continuar</p>
         </div>
 
         <div class="row justify-content-center gy-4">
@@ -33,22 +32,13 @@
               <div class="card-body text-center d-flex flex-column p-4">
                 <i class="bi bi-box-arrow-in-right fs-1 text-primary mb-3"></i>
                 <h5 class="card-title">Iniciar Sesión</h5>
-                <p class="card-text">Si ya tienes una cuenta, ingresa desde aquí para acceder a la plataforma.</p>
+                <p class="card-text">Ingresa desde aquí para acceder a la plataforma.</p>
                 <a href="login.php" class="btn btn-primary mt-auto">Ir a Iniciar Sesión</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body text-center d-flex flex-column p-4">
-                <i class="bi bi-person-plus fs-1 text-success mb-3"></i>
-                <h5 class="card-title">Registrarse</h5>
-                <p class="card-text">Si eres un nuevo usuario, crea una cuenta para poder gestionar visitas y comunicarte.</p>
-                <a href="register.php" class="btn btn-success mt-auto">Ir a Registrarse</a>
-              </div>
-            </div>
-          </div>
+          
 
         </div>
       </div>

@@ -1,4 +1,10 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Incluimos nuestro nuevo helper para tener acceso a la función user_has_role()
+require_once __DIR__ . '/auth_helper.php';
 
 function MostrarMenu(){
     echo '
@@ -21,7 +27,7 @@ function MostrarMenu(){
     <div class="branding d-flex align-items-center">
 
       <div class="container position-relative d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <a href="index.php" class="logo d-flex align-items-center me-auto">
           <!-- Uncomment the line below if you also wish to use an image logo -->
           <!-- <img src="assets/img/logo.png" alt=""> -->
           <h1 class="sitename">FamilyConnect</h1>
@@ -34,24 +40,50 @@ function MostrarMenu(){
             <li><a href="servicios.php">Servicios</a></li>
             <li><a href="contacto.php">Contacto</a></li>
          
+    ';
+
+    // Menú para usuarios que han iniciado sesión
+    if (isset($_SESSION['user_id'])) {
+        // --- Menú para Familiares ---
+        if (user_has_role('familiar')) {
+            echo '
+            <li class="dropdown"><a href="#"><span>Residente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="perfilResidente.php">Perfil de Residente</a></li>
+                <li><a href="appointmentForm.php">Reservar Visita</a></li>
+              </ul>
+            </li>';
+        }
+
+        //  menu para personal (Doctor, Enfermero, Cuidador) 
+        if (user_has_role(['admin', 'doctor', 'enfermero', 'cuidador'])) {
+            echo '
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
-                <li><a href="retroalimentacion.php">Retroalimentacion</a></li>
-                <li><a href="#">Mensaje Programados</a></li>
-                
+                <li><a href="retroalimentacion.php">Retroalimentación</a></li>
+                <li><a href="visitas.php">Gestionar Visitas</a></li>
               </ul>
-            </li>
-                <li class="dropdown"><a href="#"><span>Residente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="perfilResidente.php">Perfil de Residente</a></li>
-                    <li><a href="appointmentForm.php">Reservar Visita</a></li>
-                    <li><a href="#">Deep Dropdown 3</a></li>
-                    <li><a href="#">Deep Dropdown 4</a></li>
-                    <li><a href="#">Deep Dropdown 5</a></li>
-                  </ul>
-                </li>
-            <li><a href="auth.php">Acceder</a></li>
-          
+            </li>';
+        }
+
+        // Menu para los administradores, si agregan otro crud importante nada mas lo agregan a la lista
+        if (user_has_role('admin')) {
+            echo '
+            <li class="dropdown"><a href="#"><span>Administración</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="gestionar_usuarios.php">Gestionar Usuarios</a></li>
+              </ul>
+            </li>';
+        }
+
+        echo '<li><a href="logout.php">Cerrar Sesión</a></li>';
+    } else {
+        // Manu para usuarios no logueados
+        echo '<li><a href="auth.php">Acceder</a></li>';
+    }
+
+    echo '
+          </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
      </div>

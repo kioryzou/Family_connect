@@ -1,5 +1,5 @@
 <?php 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class loginController {
 
@@ -36,21 +36,24 @@ class loginController {
          if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $user_id = $_POST['user_id'] ?? '';
             $contrasena = $_POST['contrasena'] ?? '';
-            
             $usuario = self::buscarPorId($user_id);
 
-            if($usuario && $contrasena === $usuario['clave']){
-                $_SESSION['user_id']= $usuario['_id'];
+            // ¡CORRECCIÓN DE SEGURIDAD! Usar password_verify para comparar la contraseña.
+            if($usuario && password_verify($contrasena, $usuario['clave'])){
+                $_SESSION['user_id']= (string) $usuario['_id']; // Es buena práctica convertir el BSON a string
                 $_SESSION['user_nombre'] = $usuario['nombre'];
-                $_SESSION['tipo_usuario'] = $usuario['tipo'];
-            
-                if ($usuario['tipo'] === 'familiar'){
-                $_SESSION['residente_id'] = $usuario['residente_id'];
-                 
-            }
+                
+                // Guardar el rol específico para el control de acceso
+                if ($usuario['tipo'] === 'familiar') {
+                    $_SESSION['role'] = 'familiar';
+                    $_SESSION['residente_id'] = (string) $usuario['residente_id'];
+                } else {
+                    // Para 'doctor', 'admin', etc., asumimos que el rol está en la base de datos.
+                    $_SESSION['role'] = $usuario['rol'] ?? 'cuidador'; // Rol por defecto si no se encuentra
+                }
 
-            header("Location: index.php");
-            exit();
+                header("Location: index.php");
+                exit();
             }
           
          }

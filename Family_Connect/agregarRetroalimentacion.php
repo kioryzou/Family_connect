@@ -1,8 +1,11 @@
 
 <?php
- include('layout.php');
-require_once $_SERVER['DOCUMENT_ROOT'].'/Family_connect-main/Family_Connect/controller/retroalimentacionController.php';
+require_once __DIR__ . '/auth_helper.php';
+protect_page(['admin', 'doctor', 'enfermero', 'cuidador']); // Solo personal autorizado
  
+include('layout.php');
+require_once __DIR__ . '/controller/retroalimentacionController.php';
+
 $datos = obtenerRetroalimencacionController::manejarFormulacio();
 if(!$datos){
   $datos = [];
@@ -56,7 +59,7 @@ if(!$datos){
                                                 <input type="text" class="form-control" name="personal" required>
                                             </div>
                                             <div class="col-md-12 text-center my-4">
-                                            <button type="submit" name="enviar_retro" class="btn btn-primary">Agregar</buttom>
+                                            <button type="submit" name="enviar_retro" class="btn btn-primary">Agregar</button>
                                             </div> 
                                              </div>    
                                         </form>

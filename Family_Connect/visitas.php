@@ -1,13 +1,16 @@
 <?php
+require_once __DIR__ . '/auth_helper.php';
+protect_page(['admin', 'doctor', 'enfermero', 'cuidador']); // Solo personal autorizado
 
 require 'vendor/autoload.php';
 use MongoDB\Client;
+
 $client = new Client("mongodb://localhost:27017");
 $collection = $client->FamilyConnect->visitas;
 
 $visitas = $collection->find()->toArray();
 
-include('layout.php'); 
+include('layout.php');
 ?>
 
 <!DOCTYPE html>
