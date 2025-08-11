@@ -51,8 +51,11 @@ function MostrarMenu(){
               <ul>
                 <li><a href="perfilResidente.php">Perfil de Residente</a></li>
                 <li><a href="appointmentForm.php">Reservar Visita</a></li>
-              </ul>
+                  <li><a href="retroalimentacion.php">Retroalimentación</a></li>
+                   <li><a href="comunicacionFamiliar.php">Comunicación</a></li>
+                </ul>
             </li>';
+            
         }
 
         //  menu para personal (Doctor, Enfermero, Cuidador) 
@@ -62,6 +65,7 @@ function MostrarMenu(){
               <ul>
                 <li><a href="retroalimentacion.php">Retroalimentación</a></li>
                 <li><a href="gestionar_visitas.php">Gestionar Visitas</a></li>
+                <li><a href="comunicacionPersonal.php">Comunicación</a></li>
               </ul>
             </li>';
         }

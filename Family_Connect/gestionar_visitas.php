@@ -83,14 +83,14 @@ $lista_visitas = visitaController::obtenerVisitas();
             <thead>
 
 
-        <!-- Mensajes de éxito -->
+       
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="alert alert-success text-center"><?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?></div>
         <?php endif; ?>
 
 
 
-        <!-- Formulario para Crear o Editar Visita -->
+       
         <div class="card mb-4">
             <div class="card-header">
                 <h3><?php echo $visita_to_edit ? 'Editar Visita' : 'Añadir Nueva Visita'; ?></h3>
@@ -131,7 +131,7 @@ $lista_visitas = visitaController::obtenerVisitas();
             </div>
         </div>
 
-        <!-- Tabla de Visitas -->
+        
         <div class="card">
             <div class="card-header">
                 <h3>Lista de Visitas Progaramadas
