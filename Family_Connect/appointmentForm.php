@@ -51,6 +51,10 @@ include('layout.php');
                 <label for="date" class="form-label">Fecha de Cita</label>
               <input type="datetime-local" name="date" class="form-control datepicker " id="date" placeholder="Fecha de Cita" required="">
             </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+                <label for="residente_id" class="form-label">ID del Residente</label>
+                <input type="text" class="form-control" name="residente_id" id="residente_id" placeholder="ID del Residente" required>
+            </div>
           </div>
           <div class="form-group mt-3">
             <textarea class="form-control" name="message" rows="5" placeholder="Mensaje (Opcional)"></textarea>
@@ -76,4 +80,3 @@ include('layout.php');
   <?php IncluirScripts(); ?>
 </body>
 </html>
-   

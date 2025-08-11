@@ -10,8 +10,8 @@ const client = new MongoClient(uri);
 
 async function main() {
   await client.connect();
-  const db = client.db('FamilyConnect'); // Cambia por tu base de datos
-  const collection = db.collection('visitas'); // Cambia por tu colección
+  const db = client.db('Hoga'); 
+  const collection = db.collection('visitas'); 
 
 app.get('/visitas', async (req, res) => {
   try {

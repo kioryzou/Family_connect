@@ -61,7 +61,7 @@ function MostrarMenu(){
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="retroalimentacion.php">Retroalimentación</a></li>
-                <li><a href="visitas.php">Gestionar Visitas</a></li>
+                <li><a href="gestionar_visitas.php">Gestionar Visitas</a></li>
               </ul>
             </li>';
         }

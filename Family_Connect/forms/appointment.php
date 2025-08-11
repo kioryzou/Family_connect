@@ -39,6 +39,8 @@
 ?>
 */
 
+
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -73,8 +75,25 @@ try {
         "Fecha de cita: " . $_POST['date'] . "\n" .
         "Mensaje: " . $_POST['message'];
 
-    $mail->send();
+  if ($mail->send()) {
+    require_once '../controller/visitaController.php';
+    // Extraer fecha y hora del campo datetime-local
+    $fecha_hora = strtotime($_POST['date']);
+    $fecha = date('Y-m-d', $fecha_hora); // formato compatible con input type="date"
+    $hora = date('H:i', $fecha_hora);    // formato compatible con input type="time"
+    $data = [
+      'id' => uniqid('visita_'),
+      'residente_id' => $_POST['residente_id'],
+      'nombre_visitante' => $_POST['name'],
+      'fecha' => $fecha,
+      'hora' => $hora,
+      'autorizada' => false
+    ];
+    visitaController::agregarVisita($data);
     echo 'OK';
+  } else {
+    echo "Mailer Error: {$mail->ErrorInfo}";
+  }
 } catch (Exception $e) {
     echo "Mailer Error: {$mail->ErrorInfo}";
 }
