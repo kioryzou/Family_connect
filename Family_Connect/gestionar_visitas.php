@@ -99,8 +99,8 @@ $lista_visitas = visitaController::obtenerVisitas();
                 <form action="gestionar_visitas.php" method="POST">
                     <input type="hidden" name="action" value="<?php echo $visita_to_edit ? 'update' : 'create'; ?>">
                     <?php if ($visita_to_edit): ?>
-                       
-                    <?php endif; ?>
+                      <input type="hidden" name="id" value="<?php echo htmlspecialchars($visita_to_edit['id'] ?? $visita_to_edit['_id'] ?? ''); ?>">
+                     <?php endif; ?>
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="residente_id" class="form-label">ID Residente</label>
@@ -161,7 +161,7 @@ $lista_visitas = visitaController::obtenerVisitas();
                                 <td><?= (isset($visita['autorizada']) && $visita['autorizada']) ? 'Sí' : 'No' ?></td>
                                 <td>
                                   <a href="gestionar_visitas.php?action=edit&id=<?= isset($visita['id']) ? urlencode($visita['id']) : (isset($visita['_id']) ? urlencode($visita['_id']) : '') ?>" 
-   class="btn btn-sm btn-warning" title="Editar">Editar</a>
+                                   class="btn btn-sm btn-warning" title="Editar">Editar</a>
 
                                     <form action="gestionar_visitas.php" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta visita?');">
                                         <input type="hidden" name="action" value="delete">
