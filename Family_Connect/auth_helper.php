@@ -18,17 +18,17 @@ function protect_page(array $allowed_roles) {
 
     // 2. Si el rol del usuario no está en la lista de roles permitidos, redirigir.
     if (!in_array($_SESSION['role'], $allowed_roles)) {
-        // Podrías crear una página de "acceso-denegado.php" para una mejor experiencia.
-        header('Location: index.php'); // Redirigir a la página principal
+        
+        header('Location: index.php'); 
         exit();
     }
 }
 
 /**
  * Comprueba si el usuario actual tiene un rol específico (o uno de varios).
- * Útil para mostrar/ocultar elementos en la vista (ej. menús).
- *
- * @param string|array $roles El rol o roles a verificar.
+ 
+ 
+ * @param string|array 
  * @return bool True si el usuario tiene el rol, false en caso contrario.
  */
 function user_has_role($roles): bool {

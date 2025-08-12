@@ -39,9 +39,9 @@ class loginController {
             $usuario = self::buscarPorId($user_id);
 
             // ¡CORRECCIÓN DE SEGURIDAD! Usar password_verify para comparar la contraseña.
-            //if($usuario && password_verify($contrasena, $usuario['clave'])){
            if($usuario && $contrasena === $usuario['clave']){
-                $_SESSION['user_id']= (string) $usuario['_id']; // Es buena práctica convertir el BSON a string
+           //if($usuario && $contrasena === $usuario['clave']){
+                $_SESSION['user_id']= (string) $usuario['_id']; 
                 $_SESSION['user_nombre'] = $usuario['nombre'];
                 
                 // Guardar el rol específico para el control de acceso
@@ -50,7 +50,7 @@ class loginController {
                     $_SESSION['residente_id'] = (string) $usuario['residente_id'];
                 } else {
                     // Para 'doctor', 'admin', etc., asumimos que el rol está en la base de datos.
-                    $_SESSION['role'] = $usuario['rol'] ?? 'cuidador'; // Rol por defecto si no se encuentra
+                    $_SESSION['role'] = $usuario['rol'] ?? 'cuidador'; 
                 }
 
                 header("Location: index.php");
