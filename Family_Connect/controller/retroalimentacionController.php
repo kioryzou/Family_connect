@@ -9,33 +9,62 @@ public static function obtenerRetroalimencacion(){
  $baseDatos = $cliente->Hoga;
 
 $coleccionRetro = $baseDatos->retroalimentacion;
-$coleccionUsuarios = $baseDatos->usuarios;
- 
-$retroalimentaciones= $coleccionRetro->find()->toArray();
 
-$usuarios = $coleccionUsuarios->find()->toArray();
-$mapaUsuarios = [];
-foreach ($usuarios as $usuario){
-    $mapaUsuarios[(string)$usuario['_id']] = $usuario['nombre'];
+$pipeline = [
+    [
+        '$lookup' => [
+            'from' => 'residentes',
+            'localField' => 'residente_id',
+            'foreignField' => '_id',
+            'as' => 'residente_info'
+         ]
+        ],
+        [
+            '$unwind' => '$residente_info'
+        ]
+    ];
+        $resultado = $coleccionRetro->aggregate($pipeline)->toArray();
 
-}
-
-foreach ($retroalimentaciones as &$r){
-    $idPersonal= $r['personal'] ?? null;
-    if ($idPersonal && isset($mapaUsuarios[$idPersonal])) {
-        $r['personal'] = $mapaUsuarios[$idPersonal];
-    }else{
-        $r['personal']= 'Desconocido';
-
-    }
-    }
-return $retroalimentaciones;
+return $resultado;
 
     }catch(Exception $e){
-        echo "Error de conexion:" . $e->getMessage();
-        return null;
+        echo "Error al obtener datos de retroalimentacion:" . $e->getMessage();
+        return [];
     }
 }
+public static function obtenerRetroalimencacionPorResidenteYFecha($residenteId, $fechaInicio= null, $fechaFin= null){
+    try {
+        $cliente = new MongoDB\Client("mongodb://localhost:27017");
+        $baseDatos = $cliente->Hoga;
+        $coleccion= $baseDatos->retroalimentacion;
+
+        $filtros = ['residente_id' => $residenteId];
+
+         if ($fechaInicio || $fechaFin) {
+            $rangoFechas = [];
+            if ($fechaInicio) {
+                $rangoFechas['$gte'] = $fechaInicio;
+            }
+            if ($fechaFin) {
+                $rangoFechas['$lte'] = $fechaFin;
+            }
+               if (!empty($rangoFechas)) {
+                $filtros['fecha'] = $rangoFechas;
+            }
+        }
+        $cursor = $coleccion->find($filtros);
+        $resultados = iterator_to_array($cursor);
+
+        return $resultados;
+
+    }catch(Exception $e) {
+       error_log("Error en retroalimentacion por residente:" . $e->getMessage());
+    return [];
+    }
+    
+}
+ 
+ 
 
 public static function agregarRetroalimencacion($datos){
     try{
@@ -67,5 +96,6 @@ public static function manejarFormulacio(){
     }
     return 'Retroalimentación no agregada';
 }
+
 }
 ?>
