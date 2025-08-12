@@ -65,6 +65,8 @@ class residenteController {
             $cliente = new MongoDB\Client("mongodb://localhost:27017");
             $baseDatos = $cliente->Hoga;
             $coleccionResidentes = $baseDatos->residentes;
+
+            
             return $coleccionResidentes->insertOne($data);
         } catch (Exception $e) {
             echo "Error al agregar residente: " . $e->getMessage();

@@ -80,6 +80,7 @@ function MostrarMenu(){
               <ul>
                 <li><a href="gestionar_usuarios.php">Gestionar Usuarios</a></li>
                  <li><a href="gestionar_residentes.php">Gestionar Residentes</a></li>
+                 <li><a href="gestionar_familiar.php">Gestionar Familiar</a></li>
               </ul>
             </li>';
         }
