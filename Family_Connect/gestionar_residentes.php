@@ -8,34 +8,116 @@ $id = $_POST['id'] ?? $_GET['id'] ?? null;
 $residente_to_edit = null;
 
 if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $data = [
-                'id' => trim($_POST['id']),
-                'nombre' => $_POST['nombre'],
-                'edad' => (int)$_POST['edad'],
-                'genero' => $_POST['genero'],
-                'fecha_ingreso' => $_POST['fecha_ingreso'],
-                'habitacion' => $_POST['habitacion'],
-                'estado_salud' => $_POST['estado_salud']
-        ];
-        residenteController::agregarResidente($data);
-        $_SESSION['success_message'] = "Residente creado exitosamente.";
+    $errores = [];
+    $id = trim($_POST['id']);
+    $nombre = $_POST['nombre'];
+    $edad = (int)$_POST['edad'];
+    $genero = $_POST['genero'];
+    $fecha_ingreso = $_POST['fecha_ingreso'];
+    $habitacion = $_POST['habitacion'];
+    $estado_salud = $_POST['estado_salud'];
+
+    // Validaciones
+    if (!preg_match('/^residente_id_\d+$/', $id)) {
+        $errores[] = "El ID debe tener el formato residente_id_X";
+    }
+    if (!preg_match('/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/', $nombre)) {
+        $errores[] = "El nombre solo debe contener letras y espacios.";
+    }
+    if ($edad < 0 || $edad > 130) {
+        $errores[] = "La edad debe estar entre 0 y 130.";
+    }
+    if (!in_array($genero, ['Masculino', 'Femenino', 'Prefiere no decir'])) {
+        $errores[] = "El género debe ser Masculino, Femenino o Prefiere no decir.";
+    }
+    if (empty($habitacion)) {
+        $errores[] = "La habitación es obligatoria.";
+    }
+    if (empty($estado_salud)) {
+        $errores[] = "El estado de salud es obligatorio.";
+    }
+    // Validar fecha
+    $fechaObj = DateTime::createFromFormat('Y-m-d', $fecha_ingreso);
+    if (!$fechaObj) {
+        $errores[] = "La fecha de ingreso no es válida.";
+    }
+
+    if (count($errores) > 0) {
+        $_SESSION['error_message'] = implode('<br>', $errores);
         header("Location: gestionar_residentes.php");
         exit();
+    }
+
+    // Transformar fecha a MongoDB\BSON\UTCDateTime
+    $fechaMongo = new MongoDB\BSON\UTCDateTime($fechaObj->getTimestamp() * 1000);
+
+    $data = [
+        '_id' => $id,
+        'nombre' => $nombre,
+        'edad' => $edad,
+        'genero' => $genero,
+        'fecha_ingreso' => $fechaMongo,
+        'habitacion' => $habitacion,
+        'estado_salud' => $estado_salud
+    ];
+    residenteController::agregarResidente($data);
+    $_SESSION['success_message'] = "Residente creado exitosamente.";
+    header("Location: gestionar_residentes.php");
+    exit();
 }
 
 if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $data = [
-                'nombre' => $_POST['nombre'],
-                'edad' => (int)$_POST['edad'],
-                'genero' => $_POST['genero'],
-                'fecha_ingreso' => $_POST['fecha_ingreso'],
-                'habitacion' => $_POST['habitacion'],
-                'estado_salud' => $_POST['estado_salud']
-        ];
-        residenteController::editarResidente($id, $data);
-        $_SESSION['success_message'] = "Residente actualizado exitosamente.";
-        header("Location: gestionar_residentes.php");
+    $errores = [];
+    $nombre = $_POST['nombre'];
+    $edad = (int)$_POST['edad'];
+    $genero = $_POST['genero'];
+    $fecha_ingreso = $_POST['fecha_ingreso'];
+    $habitacion = $_POST['habitacion'];
+    $estado_salud = $_POST['estado_salud'];
+
+    // Validaciones
+    if (!preg_match('/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/', $nombre)) {
+        $errores[] = "El nombre solo debe contener letras y espacios.";
+    }
+    if ($edad < 0 || $edad > 130) {
+        $errores[] = "La edad debe estar entre 0 y 130.";
+    }
+    if (!in_array($genero, ['Masculino', 'Femenino', 'Prefiere no decir'])) {
+        $errores[] = "El género debe ser Masculino, Femenino o Prefiere no decir.";
+    }
+    if (empty($habitacion)) {
+        $errores[] = "La habitación es obligatoria.";
+    }
+    if (empty($estado_salud)) {
+        $errores[] = "El estado de salud es obligatorio.";
+    }
+    // Validar fecha
+    $fechaObj = DateTime::createFromFormat('Y-m-d', $fecha_ingreso);
+    if (!$fechaObj) {
+        $errores[] = "La fecha de ingreso no es válida.";
+    }
+
+    if (count($errores) > 0) {
+        $_SESSION['error_message'] = implode('<br>', $errores);
+        header("Location: gestionar_residentes.php?action=edit&id=$id");
         exit();
+    }
+
+    // Transformar fecha a MongoDB\BSON\UTCDateTime
+    $fechaMongo = new MongoDB\BSON\UTCDateTime($fechaObj->getTimestamp() * 1000);
+
+    $data = [
+        'nombre' => $nombre,
+        'edad' => $edad,
+        'genero' => $genero,
+        'fecha_ingreso' => $fechaMongo,
+        'habitacion' => $habitacion,
+        'estado_salud' => $estado_salud
+    ];
+    residenteController::editarResidente($id, $data);
+    $_SESSION['success_message'] = "Residente actualizado exitosamente.";
+    header("Location: gestionar_residentes.php");
+    exit();
 }
 
 if ($action === 'delete' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -123,7 +205,19 @@ include('layout.php');
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
-                                    <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<?= htmlspecialchars($residente_to_edit['fecha_ingreso'] ?? ''); ?>" required>
+                                    <?php
+                                    $fecha_valor = '';
+                                    if (isset($residente_to_edit['fecha_ingreso'])) {
+                                        if ($residente_to_edit['fecha_ingreso'] instanceof MongoDB\BSON\UTCDateTime) {
+                                            $fecha_valor = $residente_to_edit['fecha_ingreso']->toDateTime()->format('Y-m-d');
+                                        } elseif (is_numeric($residente_to_edit['fecha_ingreso'])) {
+                                            $fecha_valor = (new DateTime('@' . ($residente_to_edit['fecha_ingreso'] / 1000)))->format('Y-m-d');
+                                        } else {
+                                            $fecha_valor = htmlspecialchars($residente_to_edit['fecha_ingreso']);
+                                        }
+                                    }
+                                    ?>
+                                    <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<?= $fecha_valor ?>" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="habitacion" class="form-label">Habitación</label>
@@ -167,7 +261,19 @@ include('layout.php');
                                             <td><?= htmlspecialchars($row['nombre']); ?></td>
                                             <td><?= htmlspecialchars($row['edad']); ?></td>
                                             <td><?= htmlspecialchars($row['genero']); ?></td>
-                                            <td><?= htmlspecialchars($row['fecha_ingreso']); ?></td>
+                                            <td>
+                                                <?php
+                                                if (isset($row['fecha_ingreso'])) {
+                                                    if ($row['fecha_ingreso'] instanceof MongoDB\BSON\UTCDateTime) {
+                                                        echo $row['fecha_ingreso']->toDateTime()->format('Y-m-d');
+                                                    } elseif (is_numeric($row['fecha_ingreso'])) {
+                                                        echo (new DateTime('@' . ($row['fecha_ingreso'] / 1000)))->format('Y-m-d');
+                                                    } else {
+                                                        echo htmlspecialchars($row['fecha_ingreso']);
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
                                             <td><?= htmlspecialchars($row['habitacion']); ?></td>
                                             <td><?= htmlspecialchars($row['estado_salud']); ?></td>
                                             <td class="text-center">

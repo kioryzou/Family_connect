@@ -39,8 +39,8 @@ class loginController {
             $usuario = self::buscarPorId($user_id);
 
             // ¡CORRECCIÓN DE SEGURIDAD! Usar password_verify para comparar la contraseña.
-            if($usuario && password_verify($contrasena, $usuario['clave'])){
-           //if($usuario && $contrasena === $usuario['clave']){
+            //if($usuario && password_verify($contrasena, $usuario['clave'])){
+           if($usuario && $contrasena === $usuario['clave']){
                 $_SESSION['user_id']= (string) $usuario['_id']; // Es buena práctica convertir el BSON a string
                 $_SESSION['user_nombre'] = $usuario['nombre'];
                 
