@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             break;
 
         case 'agregar_alergia':
-            $datos = ['residente_id' => $residente_id, 'alergia' => $_POST['alergia']];
+            $datos = ['residenteId' => $residente_id, 'alergia' => $_POST['alergia']];
             alergiaController::agregarAlergia($datos);
             $_SESSION['success_message'] = "Alergia agregada.";
             break;
