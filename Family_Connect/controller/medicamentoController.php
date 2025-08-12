@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/BaseDatos.php'; 
+use MongoDB\BSON\ObjectId;
 
 class medicamentoController {
 
@@ -8,7 +9,7 @@ class medicamentoController {
     public static function obtenerMedicamentoPorId($id) {
         try {
             $db = AbrirBDMongo();
-            $coleccionMedicamentos = $db->medicamentos;
+            $coleccionMedicamentos = $db->medicamentos; 
             $medicamento = $coleccionMedicamentos->findOne(['_id' => $id]);
             return $medicamento;
         } catch (Exception $e) {
@@ -35,9 +36,6 @@ class medicamentoController {
         try {
             $db = AbrirBDMongo();
             $coleccionMedicamentos = $db->medicamentos;
-            if (!isset($datos['_id'])) {
-                $datos['_id'] = uniqid('med_');
-            }
             $coleccionMedicamentos->insertOne($datos);
             return true;
         } catch (Exception $e) {
@@ -64,15 +62,7 @@ class medicamentoController {
 
     
     public static function eliminarMedicamento($id) {
-        try {
-            $db = AbrirBDMongo();
-            $coleccionMedicamentos = $db->medicamentos;
-            $resultado = $coleccionMedicamentos->deleteOne(['_id' => $id]);
-            return $resultado->getDeletedCount() > 0;
-        } catch (Exception $e) {
-            error_log("Error al eliminar medicamento: " . $e->getMessage());
-            return false;
-        }
+        return eliminarDocumentoPorId('medicamentos', $id);
     }
 }
 ?>

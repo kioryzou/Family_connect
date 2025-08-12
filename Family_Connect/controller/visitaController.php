@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+
 class visitaController {
     public static function obtenerVisitas() {
+
 
         $cliente = new MongoDB\Client("mongodb://localhost:27017");
         $baseDatos = $cliente->Hoga;

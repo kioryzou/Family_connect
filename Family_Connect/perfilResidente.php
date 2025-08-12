@@ -7,10 +7,14 @@ include('layout.php');
 require_once __DIR__ . '/controller/residenteController.php';
 require_once __DIR__ . '/controller/medicamentoController.php';
 require_once __DIR__ . '/controller/seguimientoMedicoController.php';
+require_once __DIR__ . '/controller/alergiaController.php';
+require_once __DIR__ . '/controller/alimentacionController.php';
  
 $residente = null;
 $medicamentos = [];
 $seguimientos = [];
+$alergias = [];
+$alimentacion = null;
 
 if (isset($_SESSION['residente_id'])) {
     $residente_id = $_SESSION['residente_id'];
@@ -18,6 +22,8 @@ if (isset($_SESSION['residente_id'])) {
     if ($residente) {
         $medicamentos = medicamentoController::obtenerMedicamentosPorResidenteId($residente_id);
         $seguimientos = seguimientoMedicoController::obtenerSeguimientosPorResidenteId($residente_id);
+        $alergias = alergiaController::obtenerAlergiasPorResidenteId($residente_id);
+        $alimentacion = alimentacionController::obtenerAlimentacionPorResidenteId($residente_id);
     }
 }
 ?>
@@ -50,7 +56,44 @@ if (isset($_SESSION['residente_id'])) {
                  <li class="list-group-item"><strong>Estado de Salud: </strong><?=htmlspecialchars($residente['estado_salud']) ?></span></li>
     </ul>
     </div>
-
+    
+    <div class="card shadow p-4 mx-auto mb-4">
+        <h4 class="mb-3 text-primary">Alergias Conocidas</h4>
+        <?php if (!empty($alergias)): ?>
+            <ul class="list-group list-group-flush">
+                <?php foreach ($alergias as $alergia): ?>
+                    <li class="list-group-item"><?= htmlspecialchars($alergia['alergia'] ?? 'N/A') ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <div class="alert alert-info text-center">No hay alergias registradas para este residente.</div>
+        <?php endif; ?>
+    </div>
+    
+    <div class="card shadow p-4 mx-auto mb-4">
+        <h4 class="mb-3 text-primary">Plan de Alimentación</h4>
+        <?php if ($alimentacion): ?>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Dieta:</strong> <?= htmlspecialchars($alimentacion['dieta'] ?? 'No especificada') ?></li>
+                <li class="list-group-item">
+                    <strong>Restricciones:</strong>
+                    <?php if (!empty($alimentacion['restricciones']) && is_array($alimentacion['restricciones'])): ?>
+                        <ul class="mt-2">
+                            <?php foreach ($alimentacion['restricciones'] as $restriccion): ?>
+                                <li><?= htmlspecialchars($restriccion) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <span class="ms-2">Ninguna</span>
+                    <?php endif; ?>
+                </li>
+                <li class="list-group-item"><strong>Observaciones:</strong> <?= nl2br(htmlspecialchars($alimentacion['observaciones'] ?? 'Sin observaciones')) ?></li>
+            </ul>
+        <?php else: ?>
+            <div class="alert alert-info text-center">No hay información de alimentación registrada para este residente.</div>
+        <?php endif; ?>
+    </div>
+    
     <div class="card shadow p-4 mx-auto">
         <h4 class="mb-3 text-primary">Plan de Medicamentos</h4>
         <?php if (!empty($medicamentos)): ?>

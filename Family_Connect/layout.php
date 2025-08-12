@@ -66,6 +66,7 @@ function MostrarMenu(){
                 <li><a href="retroalimentacion.php">Retroalimentación</a></li>
                 <li><a href="gestionar_visitas.php">Gestionar Visitas</a></li>
                 <li><a href="comunicacionPersonal.php">Comunicación</a></li>
+                <li><a href="gestionar_salud.php">Gestionar Salud</a></li>
               </ul>
             </li>';
         }
