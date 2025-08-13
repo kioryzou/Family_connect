@@ -176,9 +176,9 @@ include('layout.php');
                     <div class="card-body p-4">
                         <form action="gestionar_residentes.php" method="POST">
                             <input type="hidden" name="action" value="<?= $residente_to_edit ? 'update' : 'create'; ?>">
-                            <?php if ($residente_to_edit): ?>
-                                <input type="hidden" name="id" value="<?= htmlspecialchars($residente_to_edit['id']); ?>">
-                            <?php endif; ?>
+                           <?php if (!empty($residente_to_edit) && isset($residente_to_edit['id'])): ?>
+                           <input type="hidden" name="id" value="<?= htmlspecialchars($residente_to_edit['id']); ?>">
+                           <?php endif; ?>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="id" class="form-label">ID Residente</label>

@@ -9,6 +9,7 @@ require_once __DIR__ . '/controller/medicamentoController.php';
 require_once __DIR__ . '/controller/seguimientoMedicoController.php';
 require_once __DIR__ . '/controller/alergiaController.php';
 require_once __DIR__ . '/controller/alimentacionController.php';
+require_once __DIR__ . '/controller/alertaEmergenciaController.php';
  
 $residente = null;
 $medicamentos = [];
@@ -16,6 +17,7 @@ $seguimientos = [];
 $alergias = [];
 $alimentacion = null;
 
+$alertas = [];
 if (isset($_SESSION['residente_id'])) {
     $residente_id = $_SESSION['residente_id'];
     $residente = residenteController::obtenerResidentePorId($residente_id);
@@ -24,6 +26,7 @@ if (isset($_SESSION['residente_id'])) {
         $seguimientos = seguimientoMedicoController::obtenerSeguimientosPorResidenteId($residente_id);
         $alergias = alergiaController::obtenerAlergiasPorResidenteId($residente_id);
         $alimentacion = alimentacionController::obtenerAlimentacionPorResidenteId($residente_id);
+        $alertas = alertaEmergenciaController::obtenerAlertasPorResidenteId($residente_id);
     }
 }
 ?>
@@ -91,6 +94,30 @@ if (isset($_SESSION['residente_id'])) {
             </ul>
         <?php else: ?>
             <div class="alert alert-info text-center">No hay información de alimentación registrada para este residente.</div>
+        <?php endif; ?>
+    </div>
+    
+    <div class="card shadow p-4 mx-auto mb-4">
+        <h4 class="mb-3 text-danger"><i class="bi bi-exclamation-triangle-fill"></i> Alertas de Emergencia</h4>
+        <?php if (!empty($alertas)): ?>
+            <ul class="list-group list-group-flush">
+                <?php foreach ($alertas as $alerta): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong><?= htmlspecialchars($alerta['tipo_alerta'] ?? 'N/A') ?></strong>
+                            <small class="d-block text-muted">
+                                Fecha: <?= htmlspecialchars($alerta['fecha'] ?? 'N/A') ?> | 
+                                Registrado por: <?= htmlspecialchars($alerta['registrado_por'] ?? 'N/A') ?>
+                            </small>
+                        </div>
+                        <span class="badge rounded-pill <?= $alerta['resuelto'] ? 'bg-success' : 'bg-warning text-dark' ?>">
+                            <?= $alerta['resuelto'] ? 'Resuelto' : 'Pendiente' ?>
+                        </span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <div class="alert alert-info text-center">No hay alertas de emergencia registradas.</div>
         <?php endif; ?>
     </div>
     

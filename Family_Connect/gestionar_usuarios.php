@@ -11,31 +11,41 @@ $id = $_POST['id'] ?? $_GET['id'] ?? null;
 $user_to_edit = null;
 
 if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = trim($_POST['user_id']);
-    $nombre = $_POST['nombre'];
+    $user_id = trim($_POST['user_id']);  // <--- aquí usas el ID del formulario
+    $nombre = trim($_POST['nombre']);
     $correo = strtolower(trim($_POST['correo']));
     $password = $_POST['clave'];
     $rol = $_POST['rol'];
 
     if (empty($user_id) || empty($nombre) || empty($correo) || empty($password) || empty($rol)) {
         $_SESSION['error_message'] = "Todos los campos son obligatorios.";
+    } elseif (!preg_match('/^usuario_id_\d+$/', $user_id)) {
+        $_SESSION['error_message'] = "El ID debe tener el formato usuario_id_X, donde X es un número.";
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error_message'] = "El formato del correo electrónico no es válido.";
     } else {
-        try {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $newUser = [
-                '_id' => $user_id,
-                'nombre' => $nombre,
-                'correo' => $correo,
-                'clave' => $hashed_password,
-                'rol' => $rol,
-                'activo' => true, 
-            ];
-            $collection->insertOne($newUser);
-            $_SESSION['success_message'] = "Usuario creado exitosamente.";
-        }  catch (Exception $e) {
-            $_SESSION['error_message'] = "Error inesperado al crear el usuario: " . $e->getMessage();
+        $existeId = $collection->findOne(['_id' => $user_id]);
+        $existeCorreo = $collection->findOne(['correo' => $correo]);
+        if ($existeId) {
+            $_SESSION['error_message'] = "El ID de usuario ya existe.";
+        } elseif ($existeCorreo) {
+            $_SESSION['error_message'] = "El correo ya está registrado.";
+        } else {
+            try {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $newUser = [
+                    '_id' => $user_id,
+                    'nombre' => $nombre,
+                    'correo' => $correo,
+                    'clave' => $hashed_password,
+                    'rol' => $rol,
+                    'activo' => true,
+                ];
+                $collection->insertOne($newUser);
+                $_SESSION['success_message'] = "Usuario creado exitosamente con ID: $user_id";
+            } catch (Exception $e) {
+                $_SESSION['error_message'] = "Error inesperado al crear el usuario: " . $e->getMessage();
+            }
         }
     }
     header("Location: gestionar_usuarios.php");
@@ -43,27 +53,36 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'];
+    $nombre = trim($_POST['nombre']);
     $correo = strtolower(trim($_POST['correo']));
     $rol = $_POST['rol'];
     $password = $_POST['clave'];
-    $activo = $_POST['activo'] === 'true'; 
+    $activo = $_POST['activo'] === 'true';
 
     if (empty($nombre) || empty($correo) || empty($rol) || empty($id)) {
         $_SESSION['error_message'] = "Los campos nombre, correo y rol son obligatorios.";
     } else {
-        $updateData = [
-            'nombre' => $nombre,
-            'correo' => $correo,
-            'rol' => $rol,
-            'activo' => $activo
-        ];
-
-        if (!empty($password)) {
-            $updateData['clave'] = password_hash($password, PASSWORD_DEFAULT);
-        }
-
         try {
+            $usuarioActual = $collection->findOne(['_id' => $id]);
+            if ($usuarioActual && $usuarioActual['correo'] !== $correo) {
+                $existeCorreo = $collection->findOne(['correo' => $correo]);
+                if ($existeCorreo) {
+                    $_SESSION['error_message'] = "El correo ya está registrado por otro usuario.";
+                    header("Location: gestionar_usuarios.php");
+                    exit();
+                }
+            }
+
+            $updateData = [
+                'nombre' => $nombre,
+                'correo' => $correo,
+                'rol' => $rol,
+                'activo' => $activo
+            ];
+            if (!empty($password)) {
+                $updateData['clave'] = password_hash($password, PASSWORD_DEFAULT);
+            }
+
             $updateResult = $collection->updateOne(
                 ['_id' => $id],
                 ['$set' => $updateData]
@@ -101,6 +120,7 @@ if ($action === 'edit' && $id) {
 }
 
 $result_usuarios = $collection->find([], ['sort' => ['nombre' => 1]]);
+
 
 include('layout.php');
 ?>

@@ -10,7 +10,8 @@ class alergiaController {
             $db = AbrirBDMongo();
             $coleccionAlergias = $db->alergias; 
 
-            $alergias = $coleccionAlergias->find(['residente_id' => $residente_id]);
+
+            $alergias = $coleccionAlergias->find(['residenteId' => $residente_id]);
 
             return iterator_to_array($alergias);
         } catch (Exception $e) {
@@ -26,6 +27,7 @@ class alergiaController {
             if (!isset($datos['_id'])) {
                 $datos['_id'] = uniqid('alergia_');
             }
+            
             $coleccionAlergias = $db->alergias;
             $coleccionAlergias->insertOne($datos);
             return true;
@@ -39,6 +41,8 @@ class alergiaController {
         try {
             $db = AbrirBDMongo();
             $coleccionAlergias = $db->alergias;
+
+            
             $resultado = $coleccionAlergias->deleteOne(['_id' => $alergia_id]);
             return $resultado->getDeletedCount() > 0;
         } catch (Exception $e) {
