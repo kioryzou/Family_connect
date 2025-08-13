@@ -17,17 +17,24 @@ class visitaController {
         }
     }
 
-    public static function agregarVisita($data) {
-        try {
-            $db = AbrirBDMongo();
-            $collection = $db->{self::$collectionName};
-            $resultado = $collection->insertOne($data);
-            return $resultado->getInsertedId();
-        } catch (Exception $e) {
-            error_log("Error al agregar visita: " . $e->getMessage());
-            return null;
-        }
+   public static function agregarVisita($data) {
+    try {
+        $db = AbrirBDMongo();
+        $collection = $db->{self::$collectionName};
+
+        // Generar un ID único tipo UUID o string
+        $uuid = uniqid('visita_', true); 
+        $data['_id'] = $uuid; 
+        $data['id'] = $uuid;  
+
+        $resultado = $collection->insertOne($data);
+        return $uuid;
+    } catch (Exception $e) {
+        error_log("Error al agregar visita: " . $e->getMessage());
+        return null;
     }
+}
+
 
     public static function editarVisita($id, $data) {
         try {
@@ -42,7 +49,16 @@ class visitaController {
     }
 
     public static function eliminarVisita($id) {
-        return eliminarDocumentoPorId(self::$collectionName, $id);
+    try {
+        $db = AbrirBDMongo();
+        $collection = $db->{self::$collectionName};
+        $resultado = $collection->deleteOne(['_id' => $id]);
+        return $resultado->getDeletedCount() > 0;
+    } catch (Exception $e) {
+        error_log("Error al eliminar visita: " . $e->getMessage());
+        return false;
     }
+}
+
 }
 ?>
