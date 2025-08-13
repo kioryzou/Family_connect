@@ -8,6 +8,7 @@ require_once __DIR__ . '/controller/medicamentoController.php';
 require_once __DIR__ . '/controller/alergiaController.php';
 require_once __DIR__ . '/controller/alimentacionController.php';
 require_once __DIR__ . '/controller/seguimientoMedicoController.php';
+require_once __DIR__ . '/controller/alertaEmergenciaController.php';
 
 $residente_id = $_GET['residente_id'] ?? $_POST['residente_id'] ?? null;
 $residente = null;
@@ -15,6 +16,7 @@ $medicamentos = [];
 $alergias = [];
 $alimentacion = null;
 $seguimientos = [];
+$alertas = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
@@ -75,6 +77,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             seguimientoMedicoController::eliminarSeguimiento($_POST['id']);
             $_SESSION['success_message'] = "Seguimiento médico eliminado.";
             break;
+        
+        case 'agregar_alerta':
+            $datos = [
+                '_id' => 'alerta_' . uniqid(),
+                'residente_id' => $residente_id,
+                'fecha' => $_POST['fecha'],
+                'tipo_alerta' => $_POST['tipo_alerta'],
+                'resuelto' => false,
+                'registrado_por' => $_SESSION['user_nombre'] ?? 'Sistema'
+            ];
+            alertaEmergenciaController::agregarAlerta($datos);
+            $_SESSION['success_message'] = "Alerta de emergencia agregada.";
+            break;
+        case 'marcar_alerta_resuelta':
+            alertaEmergenciaController::editarAlerta($_POST['id'], ['resuelto' => true]);
+            $_SESSION['success_message'] = "Alerta marcada como resuelta.";
+            break;
+        case 'eliminar_alerta':
+            alertaEmergenciaController::eliminarAlerta($_POST['id']);
+            $_SESSION['success_message'] = "Alerta de emergencia eliminada.";
+            break;
 
     }
     header("Location: $redirect_url");
@@ -88,6 +111,7 @@ if ($residente_id) {
         $alergias = alergiaController::obtenerAlergiasPorResidenteId($residente_id);
         $alimentacion = alimentacionController::obtenerAlimentacionPorResidenteId($residente_id);
         $seguimientos = seguimientoMedicoController::obtenerSeguimientosPorResidenteId($residente_id);
+        $alertas = alertaEmergenciaController::obtenerAlertasPorResidenteId($residente_id);
     }
 }
 ?>
@@ -295,6 +319,68 @@ if ($residente_id) {
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!-- Alertas de Emergencia -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header text-white" ><h4><i class="bi bi-exclamation-triangle-fill"></i> Alertas de Emergencia</h4></div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Tipo de Alerta</th><th>Estado</th><th>Registrado por</th><th>Acciones</th></tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($alertas)): ?>
+                                        <?php foreach ($alertas as $alerta): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($alerta['fecha']) ?></td>
+                                                <td><?= htmlspecialchars($alerta['tipo_alerta']) ?></td>
+                                                <td>
+                                                    <span class="badge <?= $alerta['resuelto'] ? 'bg-success' : 'bg-warning text-dark' ?>">
+                                                        <?= $alerta['resuelto'] ? 'Resuelto' : 'Pendiente' ?>
+                                                    </span>
+                                                </td>
+                                                <td><?= htmlspecialchars($alerta['registrado_por']) ?></td>
+                                                <td>
+                                                    <?php if (!$alerta['resuelto']): ?>
+                                                        <form method="POST" class="d-inline" onsubmit="return confirm('¿Marcar esta alerta como resuelta?');">
+                                                            <input type="hidden" name="action" value="marcar_alerta_resuelta">
+                                                            <input type="hidden" name="id" value="<?= $alerta['_id'] ?>">
+                                                            <input type="hidden" name="residente_id" value="<?= $residente_id ?>">
+                                                            <button type="submit" class="btn btn-sm btn-success" title="Marcar como resuelta"><i class="bi bi-check-circle"></i></button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <form method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar esta alerta?');">
+                                                        <input type="hidden" name="action" value="eliminar_alerta">
+                                                        <input type="hidden" name="id" value="<?= $alerta['_id'] ?>">
+                                                        <input type="hidden" name="residente_id" value="<?= $residente_id ?>">
+                                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr><td colspan="5" class="text-center">No hay alertas de emergencia registradas.</td></tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <h5>Registrar Nueva Alerta de Emergencia</h5>
+                        <form method="POST">
+                            <input type="hidden" name="action" value="agregar_alerta">
+                            <input type="hidden" name="residente_id" value="<?= $residente_id ?>">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-3"><label class="form-label">Fecha</label><input type="date" name="fecha" class="form-control" required value="<?= date('Y-m-d') ?>"></div>
+                                <div class="col-md-7"><label class="form-label">Tipo de Alerta</label><input type="text" name="tipo_alerta" class="form-control" placeholder="Ej: Emergencia médica, Caída, etc." required></div>
+                                <div class="col-md-2"><button type="submit" class="btn btn-danger w-100">Registrar Alerta</button></div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

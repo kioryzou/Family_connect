@@ -9,7 +9,6 @@ require_once __DIR__ . '/controller/visitaController.php';
 
 
 
-// --- LÓGICA PARA MANEJAR ACCIONES (CREAR, ACTUALIZAR, ELIMINAR) ---
 $action = $_POST['action'] ?? $_GET['action'] ?? 'list';
 $id = $_POST['id'] ?? $_GET['id'] ?? null;
 $visita_to_edit = null;

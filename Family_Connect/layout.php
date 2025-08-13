@@ -42,7 +42,6 @@ function MostrarMenu(){
          
     ';
 
-    // Menú para usuarios que han iniciado sesión
     if (isset($_SESSION['user_id'])) {
         // --- Menú para Familiares ---
         if (user_has_role('familiar')) {
@@ -81,6 +80,7 @@ function MostrarMenu(){
                 <li><a href="gestionar_usuarios.php">Gestionar Usuarios</a></li>
                  <li><a href="gestionar_residentes.php">Gestionar Residentes</a></li>
                  <li><a href="gestionar_familiar.php">Gestionar Familiar</a></li>
+                 <li><a href="gestionar_habitaciones.php">Gestionar Habitaciones</a></li>
               </ul>
             </li>';
         }
