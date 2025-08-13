@@ -63,11 +63,7 @@ function MostrarMenu(){
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="retroalimentacion.php">Retroalimentación</a></li>
-
-        
-                <li><a href="comunicacionPersonal.php">Comunicación</a></li>
-
-                <li><a href="gestionar_salud.php">Gestionar Salud</a></li>
+                <li><a href="comunicacionPersonal.php">Comunicación</a></li> 
 
               </ul>
             </li>';
@@ -82,6 +78,7 @@ function MostrarMenu(){
                  <li><a href="gestionar_residentes.php">Gestionar Residentes</a></li>
                  <li><a href="gestionar_familiar.php">Gestionar Familiar</a></li>
                  <li><a href="gestionar_visitas.php">Gestionar Visitas</a></li>
+                 <li><a href="gestionar_salud.php">Gestionar Salud</a></li>
                  <li><a href="gestionar_habitaciones.php">Gestionar Habitaciones</a></li>
               </ul>
             </li>';
