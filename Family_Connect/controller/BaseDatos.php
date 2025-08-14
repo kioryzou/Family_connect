@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 use MongoDB\BSON\ObjectId;
 
-// Abre una conexion a la base de datos
+
 function AbrirBDMongo(){
 try {
     $cliente = new MongoDB\Client("mongodb://localhost:27017");
@@ -18,7 +18,6 @@ try {
 
 
 <?php
-//error curioso, el delete sirve si no se corrije el error
 
 
 

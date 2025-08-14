@@ -1,7 +1,7 @@
 
 <?php
 require_once __DIR__ . '/auth_helper.php';
-protect_page(['admin', 'doctor', 'enfermero', 'cuidador']); // Solo personal autorizado
+protect_page(['admin', 'doctor', 'enfermero', 'cuidador']); 
  
 include('layout.php');
 require_once __DIR__ . '/controller/retroalimentacionController.php';

@@ -24,7 +24,7 @@ class seguimientoMedicoController {
     public static function agregarSeguimiento(array $datos) {
         try {
             $db = AbrirBDMongo();
-            // Asignamos un ID de texto simple y único.
+          
             if (!isset($datos['_id'])) {
                 $datos['_id'] = uniqid('seguimiento_');
             }
@@ -38,11 +38,11 @@ class seguimientoMedicoController {
     }
  
     public static function eliminarSeguimiento($seguimiento_id) {
-        // Lógica de eliminación directa sin usar ObjectId
+    
         try {
             $db = AbrirBDMongo();
             $coleccionSeguimientos = $db->seguimientos_medicos;
-            // Buscamos el _id como un string, que es como lo guardamos ahora.
+    
             $resultado = $coleccionSeguimientos->deleteOne(['_id' => $seguimiento_id]);
             return $resultado->getDeletedCount() > 0;
         } catch (Exception $e) {

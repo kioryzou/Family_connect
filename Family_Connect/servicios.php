@@ -2,12 +2,12 @@
 <?php
  include('layout.php');
 
-$visitas_link = "auth.php"; // Default para usuarios no logueados
+$visitas_link = "auth.php"; 
 if (isset($_SESSION['user_id'])) {
     if (user_has_role(['admin', 'doctor', 'enfermero', 'cuidador'])) {
-        $visitas_link = "visitas.php"; // El personal gestiona las visitas
+        $visitas_link = "visitas.php"; 
     } elseif (user_has_role('familiar')) {
-        $visitas_link = "appointmentForm.php"; // El familiar reserva una visita
+        $visitas_link = "appointmentForm.php"; 
     }
 }
 
@@ -28,14 +28,14 @@ if (isset($_SESSION['user_id'])) {
 <body>
    <?php MostrarMenu();?>
   <main>
-<!-- Services Section -->
+
 <section id="services" class="services section">
 
-  <!-- Section Title -->
+
   <div class="container section-title" data-aos="fade-up">
     <h2>Servicios del Sistema</h2>
     <p>FamylyConnect integra herramientas diseñadas para mejorar la experiencia en hogares de retiro, fortaleciendo la conexión emocional, organizando mejor las visitas y promoviendo el bienestar integral del residente.</p>
-  </div><!-- End Section Title -->
+  </div>
 
   <div class="container">
 
@@ -48,7 +48,7 @@ if (isset($_SESSION['user_id'])) {
           <a href="<?= $visitas_link ?>" class="stretched-link"><h3>Gestión de Visitas</h3></a>
           <p>Permite a los familiares agendar, modificar o cancelar visitas fácilmente. El personal puede aceptar o reorganizar los horarios para evitar conflictos y garantizar orden.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
         <div class="service-item position-relative">
@@ -58,7 +58,7 @@ if (isset($_SESSION['user_id'])) {
           <h3>Mensajes Programados</h3>
           <p>Los familiares pueden enviar mensajes de voz, fotos o videos. Estos se muestran a los residentes en momentos específicos, ideal para quienes no usan tecnología por sí mismos.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
         <div class="service-item position-relative">
@@ -68,7 +68,7 @@ if (isset($_SESSION['user_id'])) {
           <h3>Gamificación Cognitiva</h3>
           <p>Incluye juegos y actividades diseñadas para estimular la memoria, aumentar la interacción social y promover la actividad mental diaria de los residentes.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
         <div class="service-item position-relative">
@@ -78,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
           <h3>Perfil del Residente</h3>
           <p>Registra información relevante del residente: datos personales, historial médico, habitación asignada y familiares vinculados, facilitando la gestión centralizada.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
         <div class="service-item position-relative">
@@ -88,7 +88,7 @@ if (isset($_SESSION['user_id'])) {
           <h3>Gestión de Familiares</h3>
           <p>Permite registrar y administrar familiares autorizados por cada residente, controlar el acceso al sistema y facilitar la interacción programada con el adulto mayor.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
         <div class="service-item position-relative">
@@ -98,18 +98,18 @@ if (isset($_SESSION['user_id'])) {
           <h3>Seguridad y Control</h3>
           <p>El sistema contribuye a una mejor organización interna y control de acceso a la información y visitas, reforzando la seguridad emocional y física de los residentes.</p>
         </div>
-      </div><!-- End Service Item -->
+      </div>
 
     </div>
 
   </div>
 
-</section><!-- /Services Section -->
+</section>
   </main>
-  <!-- Scroll Top -->
+
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
+  
   <div id="preloader"></div>
 
   <?php MostrarFooter(); ?>

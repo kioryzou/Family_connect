@@ -19,12 +19,12 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $residente_id = trim($_POST['residente_id']);
     $clave = trim($_POST['clave']);
 
-    // Validar ID familiar
+
     if (!preg_match('/^familiar_id_\d+$/', $id)) {
         $errores[] = "El ID debe tener formato familiar_id_#";
     }
 
-    // Validar campos requeridos
+   
     if ($nombre === '') $errores[] = "El nombre es obligatorio.";
     if ($telefono === '') $errores[] = "El teléfono es obligatorio.";
     if ($direccion === '') $errores[] = "La dirección es obligatoria.";
@@ -35,7 +35,7 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($clave === '') $errores[] = "La clave es obligatoria.";
 
-    // Validar que residente exista (usar controlador residente)
+    
     $residenteExistente = residenteController::obtenerResidentePorId($residente_id);
     if (!$residenteExistente) {
         $errores[] = "No existe residente con ID $residente_id";
@@ -47,7 +47,7 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Preparar datos para insertar
+    
     $data = [
         '_id' => $id,
         'nombre' => $nombre,
@@ -63,7 +63,7 @@ echo "</pre>";
 try {
     
     $resultado = familiarController::agregarFamiliar($data);
-// Después de insertar:
+
 var_dump($resultado);
     if ($resultado && $resultado->getInsertedId()) {
         $_SESSION['success_message'] = "Familiar creado exitosamente con ID $id.";

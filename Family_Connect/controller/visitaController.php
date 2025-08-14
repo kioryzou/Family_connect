@@ -22,7 +22,7 @@ class visitaController {
         $db = AbrirBDMongo();
         $collection = $db->{self::$collectionName};
 
-        // Generar un ID único tipo UUID o string
+      
         $uuid = uniqid('visita_', true); 
         $data['_id'] = $uuid; 
         $data['id'] = $uuid;  

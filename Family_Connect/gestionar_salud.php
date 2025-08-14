@@ -324,6 +324,9 @@ if ($residente_id) {
             </div>
             <br>
             <br>
+
+
+            
             <!-- Alertas de Emergencia -->
             <div class="col-12">
                 <div class="card">

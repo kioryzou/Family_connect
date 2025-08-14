@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Incluimos nuestro nuevo helper para tener acceso a la función user_has_role()
+
 require_once __DIR__ . '/auth_helper.php';
 
 function MostrarMenu(){
@@ -22,7 +22,7 @@ function MostrarMenu(){
           <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
        </div>
       </div>
-    </div><!-- End Top Bar -->
+    </div>
 
     <div class="branding d-flex align-items-center">
 
@@ -43,7 +43,7 @@ function MostrarMenu(){
     ';
 
     if (isset($_SESSION['user_id'])) {
-        // --- Menú para Familiares ---
+
         if (user_has_role('familiar')) {
             echo '
             <li class="dropdown"><a href="#"><span>Residente</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -57,7 +57,7 @@ function MostrarMenu(){
             
         }
 
-        //  menu para personal (Doctor, Enfermero, Cuidador) 
+    
         if (user_has_role(['admin', 'doctor', 'enfermero', 'cuidador'])) {
             echo '
             <li class="dropdown"><a href="#"><span>Actividades</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -69,7 +69,7 @@ function MostrarMenu(){
             </li>';
         }
 
-        // Menu para los administradores, si agregan otro crud importante nada mas lo agregan a la lista
+      
         if (user_has_role('admin')) {
             echo '
             <li class="dropdown"><a href="#"><span>Administración</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -86,7 +86,7 @@ function MostrarMenu(){
 
         echo '<li><a href="logout.php">Cerrar Sesión</a></li>';
     } else {
-        // Manu para usuarios no logueados
+      
         echo '<li><a href="auth.php">Acceder</a></li>';
     }
 

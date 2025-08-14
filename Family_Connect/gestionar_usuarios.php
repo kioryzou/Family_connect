@@ -11,7 +11,7 @@ $id = $_POST['id'] ?? $_GET['id'] ?? null;
 $user_to_edit = null;
 
 if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = trim($_POST['user_id']);  // <--- aquí usas el ID del formulario
+    $user_id = trim($_POST['user_id']);  
     $nombre = trim($_POST['nombre']);
     $correo = strtolower(trim($_POST['correo']));
     $password = $_POST['clave'];

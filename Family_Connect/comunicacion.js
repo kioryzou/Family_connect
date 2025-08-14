@@ -11,7 +11,7 @@ function mostrarInputArchivo(tipo) {
     }
 }
 
-// Ejecutar al cargar para mostrar el campo correcto
+
 document.addEventListener('DOMContentLoaded', function() {
     mostrarInputArchivo('<?= $tipoSeleccionado ?>');
 });

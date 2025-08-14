@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/auth_helper.php';
-protect_page(['familiar']); // Solo los familiares pueden ver esta página
+protect_page(['familiar']); 
 
 include('layout.php');
 ?>
@@ -21,9 +21,9 @@ include('layout.php');
    <?php MostrarMenu();?>
 
   <main class="main">
-    <!-- Appointment Section -->
+
     <section id="appointment" class="appointment section">
-   <!-- Section Title -->
+
       <div class="container section-title text-center my-5" data-aos="fade-up">
         <h2>Visita</h2>
         <p>Reserve su visita llenando el formulario</p>
@@ -70,10 +70,10 @@ include('layout.php');
      </div>
   </section>
 </main>
-<!-- Scroll Top -->
+
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
+
   <div id="preloader"></div>
 
   <?php MostrarFooter(); ?>
