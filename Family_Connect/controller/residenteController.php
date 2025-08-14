@@ -81,7 +81,7 @@ class residenteController {
             $cliente = new MongoDB\Client("mongodb://localhost:27017");
             $baseDatos = $cliente->Hoga;
             $coleccionResidentes = $baseDatos->residentes;
-            // Permite eliminar tanto por 'id' como por '_id'
+            
             $filtro = ['id' => $id];
             if ($coleccionResidentes->findOne(['_id' => $id])) {
                 $filtro = ['_id' => $id];

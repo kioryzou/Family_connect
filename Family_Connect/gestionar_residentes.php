@@ -48,7 +48,7 @@ if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Transformar fecha a MongoDB\BSON\UTCDateTime
+ 
     $fechaMongo = new MongoDB\BSON\UTCDateTime($fechaObj->getTimestamp() * 1000);
 
     $data = [
@@ -103,7 +103,7 @@ if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Transformar fecha a MongoDB\BSON\UTCDateTime
+
     $fechaMongo = new MongoDB\BSON\UTCDateTime($fechaObj->getTimestamp() * 1000);
 
     $data = [

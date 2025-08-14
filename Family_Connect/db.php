@@ -2,8 +2,8 @@
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', ''); // Tu contraseña de XAMPP, usualmente está vacía
-define('DB_NAME', 'family_connect'); // Asegúrate que el nombre de la BD sea correcto
+define('DB_PASS', ''); 
+define('DB_NAME', 'family_connect'); 
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 

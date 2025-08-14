@@ -10,11 +10,11 @@ if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'familiar'){
 }
 
 $mensaje = '';
-$tipoSeleccionado = 'mensaje'; // valor por defecto
+$tipoSeleccionado = 'mensaje'; 
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $tipo = $_POST['tipo'] ?? 'mensaje';
-    $tipoSeleccionado = $tipo; // para mantener el estado en el select
+    $tipoSeleccionado = $tipo; 
     $contenido = '';
     $familiarId = $_SESSION['user_id'];
     $residenteId = $_SESSION['residente_id'];
@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $mensaje = 'Archivo no válido o no seleccionado.';
         }
     } else {
-        // Texto simple
+    
         $contenido = trim($_POST['mensaje'] ?? '');
     }
 

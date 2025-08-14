@@ -17,7 +17,7 @@
 <body>
    <?php MostrarMenu();?>
   <main>
-<!-- About Section -->
+
     <section id="about" class="about section">
 
       <div class="container">
@@ -60,12 +60,12 @@
           </div>
         </div>
     </div>
- </section><!-- /About Section -->
+ </section>
   </main>
-  <!-- Scroll Top -->
+  
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Preloader -->
+
   <div id="preloader"></div>
 
   <?php MostrarFooter(); ?>

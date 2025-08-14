@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php MostrarFooter(); ?>
     <?php IncluirScripts(); ?>
 
-    <!-- Si necesitas cargar comunicacion.js, enlázalo aquí -->
+ 
     <script src="ruta/a/comunicacion.js"></script>
 
 </body>

@@ -4,7 +4,7 @@ require_once __DIR__ . '/auth_helper.php';
 include('layout.php');
 require_once __DIR__ . '/controller/retroalimentacionController.php';
  
-// Protegemos la página usando nuestra nueva función de ayuda
+
 protect_page(['admin', 'doctor', 'enfermero', 'cuidador', 'familiar']);
 
 $fechaInicio = $_GET['fecha_inicio'] ?? null;
